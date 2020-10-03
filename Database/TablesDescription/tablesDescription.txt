@@ -1,0 +1,73 @@
+========================================================
+--------> Descripton of Tables <-------------------
+ij> describe users;
+COLUMN_NAME         |TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+USERID              |INTEGER  |0   |10  |10    |AUTOINCRE&|NULL      |NO
+USERNAME            |VARCHAR  |NULL|NULL|100   |NULL      |200       |YES
+ROLE                |VARCHAR  |NULL|NULL|20    |NULL      |40        |YES
+
+3 rows selected
+=============================================================
+
+ij> describe userLogin;
+COLUMN_NAME         |TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+USERID              |INTEGER  |0   |10  |10    |NULL      |NULL      |YES
+EMAILID             |VARCHAR  |NULL|NULL|50    |NULL      |100       |NO
+PASSWORD            |VARCHAR  |NULL|NULL|20    |NULL      |40        |YES
+LASTLOGIN           |DATE     |0   |10  |10    |NULL      |NULL      |YES
+
+4 rows selected
+================================================================
+ij> describe project;
+COLUMN_NAME         |TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+PID                 |INTEGER  |0   |10  |10    |AUTOINCRE&|NULL      |NO
+PNAME               |VARCHAR  |NULL|NULL|30    |NULL      |60        |YES
+DESCRIPTION         |VARCHAR  |NULL|NULL|200   |NULL      |400       |YES
+STARTDATE           |DATE     |0   |10  |10    |NULL      |NULL      |YES
+STATUS              |VARCHAR  |NULL|NULL|20    |NULL      |40        |YES
+
+5 rows selected
+==================================================================
+ij> describe teams;
+COLUMN_NAME         |TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+USERID              |INTEGER  |0   |10  |10    |NULL      |NULL      |NO
+PID                 |INTEGER  |0   |10  |10    |NULL      |NULL      |NO
+
+2 rows selected
+===========================================================================
+ij> describe bugs;
+COLUMN_NAME         |TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+BUGID               |INTEGER  |0   |10  |10    |AUTOINCRE&|NULL      |NO
+TITLE               |VARCHAR  |NULL|NULL|20    |NULL      |40        |YES
+DESCRIPTION         |VARCHAR  |NULL|NULL|200   |NULL      |400       |YES
+PID                 |INTEGER  |0   |10  |10    |NULL      |NULL      |NO
+TESTERID            |INTEGER  |0   |10  |10    |NULL      |NULL      |NO
+OPENDATE            |DATE     |0   |10  |10    |NULL      |NULL      |YES
+ASSIGNEDTO          |INTEGER  |0   |10  |10    |NULL      |NULL      |YES
+ISMARKEDFORCLOSING  |BOOLEAN  |NULL|NULL|1     |NULL      |NULL      |YES
+CLOSEDBY            |INTEGER  |0   |10  |10    |NULL      |NULL      |YES
+CLOSEDON            |DATE     |0   |10  |10    |NULL      |NULL      |YES
+STATUS              |VARCHAR  |NULL|NULL|10    |NULL      |20        |YES
+SEVERITYLEVEL       |VARCHAR  |NULL|NULL|20    |NULL      |40        |YES
+
+12 rows selected
+========================================================================
+ij> describe logs;
+COLUMN_NAME         |TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+LOGID               |INTEGER  |0   |10  |10    |AUTOINCRE&|NULL      |NO
+LOGNAME             |VARCHAR  |NULL|NULL|50    |NULL      |100       |YES
+
+2 rows selected
+=========================================================================
+ij> describe userCurrentLogged;
+COLUMN_NAME         |TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+USERID              |INTEGER  |0   |10  |10    |NULL      |NULL      |NO
+
+1 row selected
