@@ -24,39 +24,56 @@ class RegisterDAO implements RegisterInterface{
 		else throw FieldNotMatchingWithExistingDatabase exception for log.
 	5. Return a success status code through the Servlet.
 	*/
-	Connection connection;
+//	Connection connection;
 	Map<Integer, Users> userDataMap = new HashMap<>();
 	Users user;
 	
 	
 	//Task 1.
 	public RegisterDAO(Users user) {
-		connection = DatabaseConnect.connect();
+		
 		this.user = user;
 	}
+	
+//	static {
+//		connection = DatabaseConnect.connect();
+//	}
 
 	@Override
 	public void registerUser() throws UserAlreadyRegisteredException, FieldNotMatchingWithExistingDB, SQLException {
 		
+		Connection connection = DatabaseConnect.connect();
+		//connection.setAutoCommit(false);
 		//Task 2 done, Task 3.
-		Statement statement = connection.createStatement();
-		ResultSet resultquery1 = statement.executeQuery("select * from userLogin where username ="+user.getUsername());
-		ResultSet resultquery2 = statement.executeQuery("select role from user where username ="+user.getUsername());
+		Statement statement1 = connection.createStatement();
+		Statement statement2 = connection.createStatement();
+		System.out.println(user.getUserid());
+		ResultSet resultquery1 = statement1.executeQuery("select * from userLogin");
+		//ResultSet resultquery2 = statement2.executeQuery("select role from users");
 		
-		if(user.getLastLogin()!=null) {
-			throw new UserAlreadyRegisteredException();
-		}
+//		if(user.getLastLogin()!=null) {
+//			throw new UserAlreadyRegisteredException();
+//		}
 		
 		//Task 4
-		String email = resultquery1.getString("emailid"); //created field is emailId and not email in the table.
-		String role = resultquery2.getString("role");
-		if(user.getEmail()==email ) {//&& user.getRole()==role
-			statement.executeUpdate("update userLogin set password ="+user.getPassword() +"where username = "+user.getUsername());
-		}
-		else {
-			throw new FieldNotMatchingWithExistingDB();
+		while(resultquery1.next()) {
+			String email = resultquery1.getString(4); //created field is emailId and not email in the table.
+			System.out.println(email);
+			System.out.println(user.getEmail());
+			//String role = resultquery2.getString(3);
+			if(user.getEmail().compareTo(email)==0 ) {//&& user.getRole()==role
+				System.out.println(user.getPassword());
+				System.out.println(user.getUserid());
+				statement2.executeUpdate("update userLogin set password ='"+user.getPassword() +"' where userid="+user.getUserid());
+			}
+			else {
+				throw new FieldNotMatchingWithExistingDB();
+			}
+			//statement1.close();
 		}
 		
+		
+		connection.close();
 		//Task 5 to be done by the servlet
 		
 		

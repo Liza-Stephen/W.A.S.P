@@ -11,7 +11,7 @@ import com.wasp.exceptions.UserAlreadyRegisteredException;
 public class Main {
 
 	public static void main(String[] args) {
-		Users user = new Users(1, "SkullEnemyX", "Manager", "vineetkishore0", null, "1111");
+		Users user = new Users(111, "SkullEnemyX", "Manager", "vineetkishore0", null, "abc");
 		//Entering dummy data above
 		RegisterInterface register = FactoryMethods.registerUser(user);
 		try {

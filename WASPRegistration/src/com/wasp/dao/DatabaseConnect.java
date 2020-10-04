@@ -19,5 +19,10 @@ public class DatabaseConnect {
 	public static Connection connect() {
 		return con;
 	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+		con.close();
+	}
 
 }

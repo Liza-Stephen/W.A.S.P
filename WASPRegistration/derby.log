@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sun Oct 04 23:25:40 IST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0174-f4c1-41eb-00000f109db0 
+on database directory D:\Database\wasp with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Loaded from file:/C:/Users/vinee/Documents/workspace-spring-tool-suite-4-4.8.0.RELEASE/WASPRegistration/WebContent/WEB-INF/lib/derby.jar
+java.vendor=AdoptOpenJDK
+java.runtime.version=14.0.2+12
+user.dir=C:\Users\vinee\Documents\workspace-spring-tool-suite-4-4.8.0.RELEASE\WASPRegistration
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
