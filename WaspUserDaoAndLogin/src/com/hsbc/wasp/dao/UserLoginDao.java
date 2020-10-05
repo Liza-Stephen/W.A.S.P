@@ -3,6 +3,7 @@ package com.hsbc.wasp.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
@@ -37,10 +38,24 @@ public class UserLoginDao {
 			else 
 				return null;			
 		}
-		catch(Exception ex) {
+		catch(SQLException ex) {
 			throw new CannotConnectToDatabaseException();
 		}
 	}
 	
+	public int updateLastLogin(UserLogin u) throws CannotConnectToDatabaseException {
+		con = DBUtility.getConnection();
+		try {
+			query = "update userLogin set lastLogin=? where email=?";
+			pst = con.prepareStatement(query);
+			pst.setTimestamp(1,u.getLastLogin());
+			pst.setString(2,u.getEmailId());
+			int num = pst.executeUpdate();
+			return num;
+		}
+		catch(SQLException ex) {
+			throw new CannotConnectToDatabaseException();
+		}
+	}
 
 }

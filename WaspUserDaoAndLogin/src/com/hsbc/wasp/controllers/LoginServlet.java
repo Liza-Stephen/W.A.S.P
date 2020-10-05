@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.hsbc.wasp.dao.UserLoginDao;
+import com.hsbc.wasp.entity.UserLogin;
+
 
 public class LoginServlet extends HttpServlet {
 	Connection con;
@@ -27,35 +30,31 @@ public class LoginServlet extends HttpServlet {
     }
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		con = com.hsbc.wasp.db.DBUtility.getConnection();
+		UserLoginDao dao = new UserLoginDao();
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		String actualPassword;
 		RequestDispatcher rd = null;
-		int userId;
+		int userId = 0;
 		
 		try {
-			query = "select * from userLogin where emailId=?";
-			pst = con.prepareStatement(query);
-			pst.setString(1, email);
-			rs = pst.executeQuery();
-			if(rs.next()) {
-				userId = rs.getInt(1);
-				actualPassword = rs.getString(3);
-				if(actualPassword.equals(password)) {
+			UserLogin u = dao.getUserLogin(email);
+			if(u==null)
+			{
+				request.setAttribute("message", "User must register with the system first!");
+				rd = request.getRequestDispatcher("login.jsp");
+				System.out.println("Register with the system");
+			}
+			else {
+				if(u.getPassword().equals(password)) {
 					Timestamp date = new java.sql.Timestamp(new Date().getTime());
-					
-					query = "update userLogin set lastLogin=? where emailId=?"; 
-					
-					pst = con.prepareStatement(query);
-					pst.setTimestamp(1, date);
-					pst.setString(2,email);
-					int num = pst.executeUpdate();
+					UserLogin newUser = new UserLogin(u.getUserId(),email,password,date);
+					int num = dao.updateLastLogin(newUser);
 					if(num == 1) {
+						userId = u.getUserId();
 						request.setAttribute("userId", userId);
 						rd = request.getRequestDispatcher("mainpage.jsp");
 						System.out.println("Login");
-					}					
+					}
 				}
 				else {
 					request.setAttribute("message", "Incorrect password!");
@@ -63,17 +62,11 @@ public class LoginServlet extends HttpServlet {
 					System.out.println("Check password");
 				}
 			}
-			else {
-				request.setAttribute("message", "User must register with the system first!");
-				rd = request.getRequestDispatcher("login.jsp");
-				System.out.println("Register with the system");
-			}
 		}
-		catch(SQLException ex) {
-			ex.getStackTrace();
+		catch(Exception e) {
 			request.setAttribute("message", "Cannot connect to database!");
 			rd = request.getRequestDispatcher("login.jsp");
-			System.out.println("Cannot connect to database");
+			System.out.println("Cannot connect to databse");
 		}
 		rd.forward(request, response);
 	}
