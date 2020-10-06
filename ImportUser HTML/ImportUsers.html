@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<!-- Compiled and minified CSS -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+
+<title>Import Users Page</title>
+</head>
+
+
+<body>
+
+<div class= "container">
+
+	<div class="row">
+	
+		<div class="col m6 offset-m3">
+		
+			<div class="card">
+			
+				<div class="card-content">
+				
+					<h4 class="center-align">Import Users</h4>
+					
+					<div class="form center-align">
+					
+					<!-- Compiled and minified JavaScript -->
+					<form id="userform">
+						
+					<div class = "file-field input-field">
+                  		<div class = "btn">
+                     	<span>Browse</span>
+                     	
+                    <input id="userJson" type = "file" name="userJson" accept="application/json"/>
+                  		</div>
+                  
+                  	<div class = "file-path-wrapper">
+                    <input class = "file-path validate" type = "text" placeholder = "Upload file" />
+                    
+                  </div>
+               		</div>
+               				<button type="submit" class="btn" id="importJsonFile">Submit </button>
+               				
+               		
+               				
+               		<script>
+					document.getElementById('userJson').onchange = function(evt) {
+				        try {
+				            let files = evt.target.files;
+				            if (!files.length) {
+				                alert('No file selected!');
+				                return;
+				            }
+				            let file = files[0];
+				            let reader = new FileReader();
+				            const self = this;
+				            reader.onload = (event) => {
+				                console.log(event.target.result);
+				            };
+				            var data = event.target.result;
+				            reader.readAsText(file);
+				            
+				        } catch (err) {
+				            console.error(err);
+				        }
+				        
+				       
+						
+				    }
+					
+					</script>
+            
+            	</form>		
+          					  </div>
+						
+					</div>
+					
+						
+						
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body> 
+</html>
+
+
+
+
+
+
+
+
+
+  
