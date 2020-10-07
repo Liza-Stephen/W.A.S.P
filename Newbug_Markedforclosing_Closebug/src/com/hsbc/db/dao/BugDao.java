@@ -37,7 +37,7 @@ public class BugDao implements Dao {
 				con = DBUtility.getConnection();
 				
 				stmt = con.createStatement();
-				PreparedStatement pst = con.prepareStatement("insert into  bugs(title,description,severitylevel,pid,opendate) values(?,?,?,?,?);");
+				PreparedStatement pst = con.prepareStatement("insert into  bugs(title,description,severitylevel,pid,opendate,testerid) values(?,?,?,?,?,?);");
 				ResultSet rs = stmt.executeQuery(st);
 				
 				if (rs.next()) {
@@ -101,7 +101,7 @@ public class BugDao implements Dao {
 	public void CloseBug(String name,String date,int closedby) throws NotMarkedClosedException {
 		try {
 			st = "select ismarkedforclosing from bugs where title=" + name;
-			String st1="update bugs set closedon =? where title="+name;
+			String st1="update bugs set closedon =?,closedby =? where title="+name;
 			con = DBUtility.getConnection();
 			stmt = con.createStatement();
 			PreparedStatement pst=con.prepareStatement(st1);
