@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>testerbugtracking</display-name>
+  <welcome-file-list>
+    <welcome-file>newbug.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>TesterServlet</display-name>
+    <servlet-name>TesterServlet</servlet-name>
+    <servlet-class>com.hsbc.db.servlets.TesterServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TesterServlet</servlet-name>
+    <url-pattern>/getbug</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DevloperMarkOfClosing</display-name>
+    <servlet-name>DevloperMarkOfClosing</servlet-name>
+    <servlet-class>com.hsbc.db.servlets.DevloperMarkOfClosing</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DevloperMarkOfClosing</servlet-name>
+    <url-pattern>/DevloperMarkOfClosing</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ManagerCloseBug</display-name>
+    <servlet-name>ManagerCloseBug</servlet-name>
+    <servlet-class>com.hsbc.db.servlets.ManagerCloseBug</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ManagerCloseBug</servlet-name>
+    <url-pattern>/ManagerCloseBug</url-pattern>
+  </servlet-mapping>
+</web-app>
