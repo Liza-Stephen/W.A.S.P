@@ -5,8 +5,8 @@ public class BugNotAssignedException extends Exception{
 	public BugNotAssignedException() {
 		super();
 	}
-	public void showMessage() {
-		System.out.println("Cannot assign bug!");
+	public String showMessage() {
+		return "Cannot assign bug!";
 	}
 
 }
