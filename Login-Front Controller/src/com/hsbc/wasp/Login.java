@@ -5,19 +5,19 @@ import java.util.Date;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.hsbc.wasp.dao.UserLoginDao;
-import com.hsbc.wasp.entity.UserLogin;
+import com.hsbc.wasp.dao.UserDao;
+import com.hsbc.wasp.entity.User;
 import com.hsbc.wasp.exceptions.UserCannotLoginException;
 
 public class Login {
 	
 	public static void loginUser(String email, String password) throws UserCannotLoginException
 	{
-		UserLoginDao dao = new UserLoginDao();
+		UserDao dao = new UserDao();
 		JSONArray array = new JSONArray();
 		JSONObject obj = null;
 		try {
-			UserLogin u = dao.getUserLogin(email);
+			User u = dao.getUser(email);
 			if(u==null)
 			{
 				obj.put("message","User must register with the system first");		//Failure message				
@@ -26,7 +26,7 @@ public class Login {
 				int userId;
 				if(u.getPassword().equals(password)) {
 					Timestamp date = new java.sql.Timestamp(new Date().getTime());
-					UserLogin newUser = new UserLogin(u.getUserId(),email,password,date);
+					User newUser = new User(u.getUserId(),u.getUserName(),email,password,date,u.getIsRegistered());
 					int num = dao.updateLastLogin(newUser);
 					if(num == 1) {
 						userId = u.getUserId();
