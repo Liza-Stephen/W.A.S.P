@@ -1,0 +1,73 @@
+----> Create Database if not created <-----
+ij> connect 'jdbc:derby:f:/derbydb/bugtrack;create=true';
+===================================================
+----> Create Table User <-----
+ij> create table users(
+  userId integer not null generated always as IDENTITY(start with 100,increment by 4),
+  userName varchar(100),
+  emailId varchar(50) unique,
+  password varchar(20) ,
+  lastLogin timestamp,
+  isRegistered boolean
+  primary key(userId));
+======================================================
+----->  Create table Roles <-----------
+ij> create table roles(
+  userId integer references users(userId),
+  role varchar(20)
+ );
+======================================================
+-----> Project Table <---------------
+ij> create table project(
+  pid integer not null generated always as IDENTITY(start with 500,increment by 4),
+  pName varchar(30),
+  description varchar(200),
+  startDate date,
+  status varchar(20),
+  primary key(pid));
+==========================================================
+-------> Teams <---------------------------------
+ij> create table teams(
+  userId integer,
+  pid integer,
+  constraint team_list_pk primary key(userId,pid),
+  constraint user_key foreign key(userId)
+  references users(userId),
+  constraint project_key foreign key(pid)
+  references project(pid));
+==========================================================
+--------> Bugs <------------------------
+ij> create table bugs(
+  bugId integer not null generated always as IDENTITY(start with 1000,increment by 4),
+  title varchar(20),
+  description varchar(200),
+  pid integer,
+  testerId integer,
+  openDate date,
+  assignedto integer,
+  isMarkedforClosing boolean,
+  closedBy integer,
+  closedOn date,
+  status varchar(10),
+  severityLevel varchar(20),
+  constraint bug_pk primary key(bugId,pid,testerId),
+  constraint bug_fk1 foreign key(testerId)
+  references users(userId),
+  constraint bug_fk2 foreign key(pid)
+  references project(pid));
+==================================================================
+---------> Logs <------------------------------
+ij> create table logs(
+  logId integer not null generated always as IDENTITY(start with 2000,increment by 4),
+  logName varchar(50),
+  description varchar(100),
+  CausedByUser integer references users(userId),
+  primary key(logId));
+==================================================================
+----------> Currently loggedin <----------------------------
+ij> create table userCurrentLogged(
+  userID integer ,
+  primary key(userId),
+  foreign key(userId)
+  references users(userId));
+================================================================
