@@ -5,7 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script type="text/javascript">
+<script type="text/javascript" >
 http=new XMLHttpRequest();
 function addProject()
 {
@@ -21,7 +21,7 @@ function getProject()
 {
 	var data={"action":"getProject"};
 	data=JSON.stringify(data);
-	http.onreadystatechange=displayData;
+	http.onreadystatechange=displayProjectData;
 	http.open("POST","controller",true);
 	http.setRequestHeader("Content-type","application/json;charset=UTF-8");
 	http.send(data);
@@ -30,7 +30,7 @@ function getBugs()
 {
 	var data={"action":"getBugs"};
 	data=JSON.stringify(data);
-	http.onreadystatechange=displayData;
+	http.onreadystatechange=displayBugData;
 	http.open("POST","controller",true);
 	http.setRequestHeader("Content-type","application/json;charset=UTF-8");
 	http.send(data);
@@ -39,16 +39,58 @@ function displayData()
 {
 	if(http.readyState==4&&http.status==200)
 		{
-		document.getElementById("display").innerHTML="Enter DisplayData";
 		res=http.responseText;
+		document.getElementById("display").innerHTML=res;
 		data=JSON.parse(res);
-	
+		document.getElementById("display").innerHTML=data;
 		}
 	}
+function displayProjectData()	
+{
+	if(http.readyState==4&&http.status==200)
+		{
+		res=http.responseText;	
+		
+		data=JSON.parse(res);
+		document.getElementById("display").innerHTML=data[0].pName;
+		alert(typeof data);
+		}
+	}
+function displayBugData()	
+{
+	if(http.readyState==4&&http.status==200)
+		{
+		res=http.responseText;
+		data=JSON.parse(res);
+		document.getElementById("display").innerHTML=data[0].title;
+		}
+	}
+function importUser()
+{
+	let fileUploaded=new FileReader();
+	document.getElementById("display").innerHTML="Entered ";
+	fileUploaded.readAsText("importUser.json");
+	http.onreadystatechange=displayimport;
+	http.open("POST","importUser",true);
+	http.setRequestHeader("Content-type","application/json;charset=UTF-8");
+	http.send(fileUploaded);
+	}
+function displayimport()
+{
+	if(http.readyState==4&&http.status==200)
+{
+		document.getElementById("display").innerHTML="Entered Display";
+	res=http.responseText;
+	document.getElementById("display").innerHTML=res;
+	}
+	}
+
 </script>
 <button onclick="addProject()"> CLick here to add Project</button>
 <button onclick="getProject()"> CLick here to Get Project</button>
 <button onclick="getBugs()"> CLick here to Get Bug</button><br><br>
+
+
 <div id="display"> Result</div>
 </body>
 </html>

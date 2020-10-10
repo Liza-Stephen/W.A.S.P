@@ -1,5 +1,7 @@
 package com.bugstrack.service;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,42 +11,47 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.bugstrack.dao.BugDAO;
-import com.bugstrack.dao.BugDAOImpl;
 import com.bugstrack.dao.ProjectDAO;
-import com.bugstrack.dao.ProjectDAOImpl;
 import com.bugstrack.dao.TeamDAO;
-import com.bugstrack.dao.TeamDAOImpl;
 import com.bugstrack.domain.Bug;
 import com.bugstrack.domain.Project;
 import com.bugstrack.domain.Team;
+import com.bugstrack.interfaces.BugInterface;
+import com.bugstrack.interfaces.ProjectInterface;
+import com.bugstrack.interfaces.TeamInterface;
 
 public class ProjectService {
-    public static void addProject(Project p,List<Integer> teamMem)
+    public static void addProject(Project p,List<Integer> teamMem) // add project
     {
-    	ProjectDAO pr=new ProjectDAOImpl();
+    	ProjectInterface pr=new ProjectDAO();
     	pr.addProject(p);
-    	TeamDAO tm=new TeamDAOImpl();
+    	TeamInterface tm=new TeamDAO();
     	int pid=pr.lastrowAdded(); // to be replaced by max id find
     	for(int userId:teamMem)
     		tm.addTeam(new Team(userId, pid));
     	
     }
-    public static List<Integer> getProjectIds(int userId)
+    public static List<Integer> getProjectIds(int userId) //get projects by user
     {
-    	TeamDAO teamDao=new TeamDAOImpl();
+    	TeamInterface teamDao=new TeamDAO();
     	List<Integer> pids=teamDao.getProjects(userId);
     	return pids;
     }
-    public static List<Project> getProjectByUser(int userId)
+    public static List<Project> getProjectByUser(int userId)// get project by user
     {
         List<Integer> pids=getProjectIds(userId);
-    	ProjectDAO projectDao=new ProjectDAOImpl();
+    	ProjectInterface projectDao=new ProjectDAO();
     	List<Project> projects=new ArrayList<Project>();
+    	Project pr=null;
     	for(int pid:pids)
-    		projects.add(projectDao.getProject(pid));
+    	{
+    		pr=projectDao.getProject(pid);
+    		projects.add(pr);
+    		//System.out.println(pid+" "+pr.toString());
+    	}
     	return projects;
     }
-    public static String sendJSON(int userId)
+    public static String sendJSON(int userId) // send response
     {
     	List<Project> projects=getProjectByUser(userId);
     	JSONArray array=new JSONArray();
@@ -55,13 +62,13 @@ public class ProjectService {
     		obj.put("pid",p.getpId() );
     		obj.put("pName", p.getpName());
     		obj.put("description", p.getDescription());
-    		obj.put("startDate", p.getStartDate());
+    	//	obj.put("startDate", p.getStartDate().toString());
     		obj.put("status", p.getStatus());
     		array.add(obj);
     	}
     	return array.toJSONString();
     }
-    public static void parseJSON(JSONObject json)
+    public static void parseJSON(JSONObject json) // get request 
     {
     	String pname=(String)json.get("pName");
 		String description=(String)json.get("description");

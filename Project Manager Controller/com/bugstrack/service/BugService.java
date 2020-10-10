@@ -1,5 +1,7 @@
 package com.bugstrack.service;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,18 +10,18 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.bugstrack.dao.BugDAO;
-import com.bugstrack.dao.BugDAOImpl;
 import com.bugstrack.dao.ProjectDAO;
-import com.bugstrack.dao.ProjectDAOImpl;
 import com.bugstrack.domain.Bug;
+import com.bugstrack.interfaces.BugInterface;
+import com.bugstrack.interfaces.ProjectInterface;
 
 public class BugService {
 	 public static List<Bug> getBugSortable(int userId)
 	    {
 	    	List<Integer> pids=ProjectService.getProjectIds(userId);
 	    	List<Bug> bugs=new ArrayList<Bug>();
-	    	BugDAO bugDao=new BugDAOImpl();
-	    	ProjectDAO pr=new ProjectDAOImpl();
+	    	BugInterface bugDao=new BugDAO();
+	    	ProjectInterface pr=new ProjectDAO();
 	    	for(int pid:pids)
 	    	{
 	    		if(pr.getStatus(pid).equalsIgnoreCase("open"))
@@ -40,6 +42,13 @@ public class BugService {
 			 obj.put("title", b.getTitle());
 			 array.add(obj);
 		 }
-		 return array.toJSONString();
+		 StringWriter st=new StringWriter();
+	        try {
+				array.writeJSONString(st);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	return st.toString();
 	 }
 }

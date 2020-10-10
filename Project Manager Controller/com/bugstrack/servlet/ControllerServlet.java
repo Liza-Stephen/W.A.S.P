@@ -3,6 +3,7 @@ package com.bugstrack.servlet;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -20,8 +21,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.bugstrack.domain.Project;
+import com.bugstrack.factory.ForwardMethod;
 import com.bugstrack.service.BugService;
 import com.bugstrack.service.ProjectService;
+import com.bugstrack.service.TeamService;
+import com.bugstrack.service.UserImportService;
 
 
 
@@ -47,6 +51,7 @@ public class ControllerServlet extends HttpServlet {
 		Object obj=null;
 		try {
 			obj=new JSONParser().parse(reader);
+			System.out.println("");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,33 +73,48 @@ public class ControllerServlet extends HttpServlet {
 		}
 		System.out.println(userId);
 		JSONObject json=(JSONObject)obj;
-		PrintWriter pw=response.getWriter();
+		
 		String action=(String)json.get("action");
 		System.out.println(action);
-		response.setStatus(200);
-		if(action.equalsIgnoreCase("addProject"))
+	    String res=null;
+	    if(action.equalsIgnoreCase("importUser"))
+	    {
+	    	UserImportService.addUsers(json);
+	    	System.out.println("success");
+	    }
+	    else if(action.equalsIgnoreCase("getTeam"))
+	    {
+	    	res=TeamService.getListofUser(userId);
+	    }
+	    else if(action.equalsIgnoreCase("addProject"))
 		{
 			System.out.println("Enter Add project ");
 		ProjectService.parseJSON(json);
-		pw.println("success");
-		System.out.println("success");
+		System.out.println("success"); // check success
 		}
 		else if(action.equalsIgnoreCase("getProject"))
 		{
 			System.out.println("Enter Get project ");
-			String res=ProjectService.sendJSON(100);
+			res=ProjectService.sendJSON(userId);
 			System.out.println(res);
-			pw.println(res);
 		}
 		else if(action.equalsIgnoreCase("getBugs"))
 		{
 			System.out.println("Enter Get bug ");
-			String res=BugService.sendjson(userId);
-			pw.println(res);
+		    res=BugService.sendjson(userId);
 			System.out.println(res);
 		}
-		
+		else
+		{
+			System.out.println(json.toJSONString());
+			res="success";
+		}
+		response.setStatus(200);
+		//response.setContentType("application/json;charset=UTF-8");
+		PrintWriter pw=response.getWriter();
+		pw.println(res);
 		pw.close();
+		// [{'pname:cdsnkjfnkl}]
 	}
 
 }

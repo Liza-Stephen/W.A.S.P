@@ -69,6 +69,11 @@ public class Project implements Comparable<Project> {
 		return false;
 	}
 	@Override
+	public String toString() {
+		return "Project [pId=" + pId + ", pName=" + pName + ", description=" + description + ", startDate=" + startDate
+				+ ", status=" + status + "]";
+	}
+	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub
 		return this.pId;
