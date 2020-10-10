@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.wasp.exceptions.UnknownActionTriggeredException;
+import com.wasp.forwards.LoginForward;
 
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -23,11 +23,17 @@ public class DispatcherServlet extends HttpServlet {
 		//Handle All Of The Post Requests Below By Checking The Action Parameter
 		String action = request.getParameter("action");
 		
+		
+		
+		
+		
+		
+		
 		if(action.equalsIgnoreCase("register")) {
 			//Forward request to register class
 		}
 		else if(action.equalsIgnoreCase("login")) {
-			//Forward the request for login class
+			LoginForward.performLogin();
 		}
 		else if(action.equalsIgnoreCase("importUser")) {
 			//Forward the request for importing user into the database.
