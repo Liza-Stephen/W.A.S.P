@@ -12,7 +12,6 @@ function addProject()
 	var data={"pName":"Project1","description":"Project1","startDate":"2020-10-08","userIds":[112,104,108],"action":"addProject"};
 	
 	data=JSON.stringify(data);
-	document.getElementById("display").innerHTML=data;
 	http.onreadystatechange=displayData;
 	http.open("POST","controller",true);
 	http.setRequestHeader("Content-type","application/json;charset=UTF-8");
@@ -40,15 +39,16 @@ function displayData()
 {
 	if(http.readyState==4&&http.status==200)
 		{
-		res=http.responseText();
+		document.getElementById("display").innerHTML="Enter DisplayData";
+		res=http.responseText;
 		data=JSON.parse(res);
-		document.getElementById("display").innerHTML=data;
+	
 		}
 	}
 </script>
 <button onclick="addProject()"> CLick here to add Project</button>
 <button onclick="getProject()"> CLick here to Get Project</button>
-<button onclick="getBugs()"> CLick here to Get Bug</button><br>
-<div id="display"></div>
+<button onclick="getBugs()"> CLick here to Get Bug</button><br><br>
+<div id="display"> Result</div>
 </body>
 </html>
