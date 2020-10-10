@@ -11,7 +11,7 @@ public class DatabaseConnect {
 	static {
 		try {
 			//Add relative path here
-			con = DriverManager.getConnection("jdbc:derby:d:/Database/wasp");
+			con = DriverManager.getConnection("jdbc:derby:D:\\W.A.S.P\\Database\\bugtrack");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

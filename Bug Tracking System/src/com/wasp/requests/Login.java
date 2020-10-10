@@ -3,8 +3,8 @@ package com.wasp.requests;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import com.wasp.dao.LoginDAO;
 import com.wasp.entity.User;

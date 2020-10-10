@@ -1,5 +1,6 @@
 package com.wasp.factory;
 
+import com.wasp.entity.Roles;
 import com.wasp.entity.User;
 import com.wasp.interfaces.LoginInterface;
 import com.wasp.interfaces.RegisterInterface;
@@ -13,8 +14,8 @@ public class ForwardMethods {
 	}
 	
 	
-	public static RegisterInterface registerUser(User user) {
-		return new RegisterDAO(user);
+	public static RegisterInterface registerUser(User user,Roles role) {
+		return new RegisterDAO(user,role);
 	}
 
 }

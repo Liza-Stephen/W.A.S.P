@@ -73,20 +73,19 @@ public class User implements Comparable<User>{
 	public void setIsRegistered(boolean isRegistered) {
 		this.isRegistered = isRegistered;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", emailId=" + emailId + ", password=" + password
-				+ ", lastLogin=" + lastLogin + ", isRegistered=" + isRegistered + "]";
+				+ ", lastLogin=" + lastLogin + ", isRegistered=" + isRegistered +"]";
 	}
 
 	@Override
 	public int hashCode() {
-		//Assuming that user id is unique...return user id as hash code
 		return userId;
-		
 	}
 
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -121,8 +120,8 @@ public class User implements Comparable<User>{
 		} else if (!userName.equals(other.userName))
 			return false;
 		return true;
-	}	
-	
+	}
+
 	@Override
 	public int compareTo(User o) {
 		return this.userId - o.userId;

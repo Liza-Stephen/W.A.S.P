@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.wasp.database.DatabaseConnect;
+import com.wasp.entity.Roles;
 import com.wasp.entity.User;
 import com.wasp.exceptions.FieldNotMatchingWithExistingDB;
 import com.wasp.exceptions.UserAlreadyRegisteredException;
@@ -27,12 +29,14 @@ public class RegisterDAO implements RegisterInterface{
 //	Connection connection;
 	Map<Integer, User> userDataMap = new HashMap<>();
 	User user;
+	Roles role;
 	
 	
 	//Task 1.
-	public RegisterDAO(User user) {
+	public RegisterDAO(User user, Roles role) {
 		
 		this.user = user;
+		this.role = role;
 	}
 	
 //	static {
@@ -48,29 +52,28 @@ public class RegisterDAO implements RegisterInterface{
 		Statement statement1 = connection.createStatement();
 		Statement statement2 = connection.createStatement();
 		System.out.println(user.getUserId());
-		ResultSet resultquery1 = statement1.executeQuery("select * from userLogin");
-		//ResultSet resultquery2 = statement2.executeQuery("select role from users");
+		ResultSet resultquery1 = statement1.executeQuery("select * from users");
+		ResultSet resultquery2 = statement2.executeQuery("select role from roles where userid = "+ user.getUserId());
 		
-//		if(user.getLastLogin()!=null) {
-//			throw new UserAlreadyRegisteredException();
-//		}
+		
 		
 		//Task 4
-		while(resultquery1.next()) {
+			String roleUser = resultquery2.getString(2);
 			String email = resultquery1.getString(4); //created field is emailId and not email in the table.
-			System.out.println(email);
-			System.out.println(user.getEmailId());
+			Timestamp timestamp = resultquery1.getTimestamp(5);
 			//String role = resultquery2.getString(3);
-			if(user.getEmailId().compareTo(email)==0 ) {//&& user.getRole()==role
-				System.out.println(user.getPassword());
-				System.out.println(user.getUserId());
-				statement2.executeUpdate("update userLogin set password ='"+user.getPassword() +"' where userid="+user.getUserId());
+			if(timestamp!=null) {
+				throw new UserAlreadyRegisteredException();
+			}
+			if(user.getEmailId().equalsIgnoreCase(email) && role.getRole().equalsIgnoreCase(roleUser) ) {
+//				System.out.println(user.getPassword());
+//				System.out.println(user.getUserId());
+				statement2.executeUpdate("update users set password ='"+user.getPassword() +"' where userid="+user.getUserId());
 			}
 			else {
-				throw new FieldNotMatchingWithExistingDB();
+				throw new FieldNotMatchingWithExistingDB(user.getLastLogin());
 			}
 			//statement1.close();
-		}
 		
 		
 		connection.close();

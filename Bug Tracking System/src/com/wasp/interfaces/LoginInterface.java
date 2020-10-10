@@ -7,6 +7,6 @@ public interface LoginInterface {
 	
 	public User getUser(String emailId) throws UserCannotLoginException;
 	
-	public int updateLastLogin(User u) throws UserCannotLoginException;
+	public int updateLastLogin(User u);
 
 }

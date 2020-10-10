@@ -19,6 +19,7 @@ public class LoginDAO implements LoginInterface{
 	Statement stmt;
 	PreparedStatement pst;
 	ResultSet rs;
+	User u;
 	
 	@Override
 	public User getUser(String emailId) throws UserCannotLoginException {
@@ -34,23 +35,23 @@ public class LoginDAO implements LoginInterface{
 				String password = rs.getString(4);
 				Timestamp lastLogin = rs.getTimestamp(5);
 				boolean isRegistered = rs.getBoolean(6);
-				User u =new User(userId, userName, emailId, password, lastLogin, isRegistered);
-				return u;
+				u =new User(userId, userName, emailId, password, lastLogin, isRegistered);
+				
 			}
 			else {
-				return null;
+				throw new UserCannotLoginException(u.getUserId(), u.getLastLogin());
 			}
 		}
 		catch(SQLException ex) {
-			throw new UserCannotLoginException(ex.toString());
-		}
+			ex.printStackTrace();		}
+		return u;
 	}
 	
 	@Override
-	public int updateLastLogin(User u) throws UserCannotLoginException {
+	public int updateLastLogin(User u) {
 		con = DatabaseConnect.connect();
 		try {
-			query = "update user set lastLogin=? where userId=?";
+			query = "update users set lastLogin=? where userId=?";
 			pst = con.prepareStatement(query);
 			pst.setTimestamp(1,u.getLastLogin());
 			pst.setInt(2,u.getUserId());
@@ -58,7 +59,9 @@ public class LoginDAO implements LoginInterface{
 			return num;
 		}
 		catch(SQLException ex) {
-			throw new UserCannotLoginException(ex.toString());
+			ex.printStackTrace();	
 		}
+		//if the function returns -1 then update last login failed
+		return -1;
 	}
 }
