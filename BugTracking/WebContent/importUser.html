@@ -1,5 +1,10 @@
 <input type='file' accept='application/json' onchange='openFile(event)'><br>
-<div id='output'></div>
+<div id='display'></div>
+
+<input id="emailId" type="email" ><br>
+<input id="role" type="text"><br>
+<input id="password" type="password"><br>
+<button onclick="registerUser()">Register</button>
 <script>
  var http=new XMLHttpRequest();
   var openFile = function(event) {
@@ -30,4 +35,16 @@
 	  	document.getElementById("display").innerHTML=res;
 	  	}
   }
-</script>
+  function registerUser()
+  {
+	  emailId=document.getElementById("emailId").value;
+	  password=document.getElementById("password").value;
+	  role=document.getElementById("role").value;
+	  data={"emailId":emailId,"password":password,"role":role,"action":"registerUser"};
+	  data=JSON.stringify(data);
+	   http.onreadystatechange=display;
+		http.open("POST","controller",true);
+		http.setRequestHeader("Content-type","application/json;charset=UTF-8");
+		http.send(data);
+  }
+  </script>

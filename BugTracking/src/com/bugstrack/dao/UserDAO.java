@@ -38,17 +38,15 @@ public class UserDAO implements UserInterface {
     {
     	int userId=getUserIdByemail(emailId);
     	User user=getUser(userId);
-    	if(!user.isRegistered())
+    	if(user.isRegistered())
     		System.out.println("Allready "); // throw exception
-    	Date date=new Date();
-    	Timestamp st=new Timestamp(date.getTime());
-    	String query="update users set password=?,lastLoggedin=?,isRegistered=? where userId=?";
+    	
+    	String query="update users set password=?,isRegistered=? where userId=?";
     	try {
 			PreparedStatement ps=userDao.prepareStatement(query);
 			ps.setString(1, password);
-			ps.setTimestamp(2, st);
-			ps.setBoolean(3, true);
-			ps.setInt(4, userId);
+			ps.setBoolean(2, true);
+			ps.setInt(3, userId);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -117,7 +115,6 @@ public class UserDAO implements UserInterface {
 		// close();
     	return res;
     }
-    
     public void updatePassword(String emailId,String password)
     {
     	
@@ -125,10 +122,36 @@ public class UserDAO implements UserInterface {
     public void updateLastLogin(String emailId)
     {
     	
+    	String query="update users set lastLogin=? where emailId=?";
+    	try {
+			PreparedStatement ps=userDao.prepareStatement(query);
+			Date date=new Date();
+			Timestamp timestamp=new Timestamp(date.getTime());
+			ps.setTimestamp(1, timestamp);
+			ps.setString(2, emailId);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace(); // throw exception
+		}
     }
     public int getUserIdByemail(String emailId)
     {
-    	return 0;
+    	int res=0;
+    	String query="select userId from users where emailId=?";
+    	try {
+			PreparedStatement ps=userDao.prepareStatement(query);
+			ps.setString(1, emailId);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next())
+			{
+				res=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return res;
     }
 	public void close()
 	{

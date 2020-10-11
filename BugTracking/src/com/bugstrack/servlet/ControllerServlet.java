@@ -24,6 +24,7 @@ import com.bugstrack.domain.Project;
 import com.bugstrack.factory.ForwardMethod;
 import com.bugstrack.service.BugService;
 import com.bugstrack.service.ProjectService;
+import com.bugstrack.service.RegisterUserService;
 import com.bugstrack.service.TeamService;
 import com.bugstrack.service.UserImportService;
 
@@ -55,10 +56,9 @@ public class ControllerServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		HttpSession session=request.getSession(false);
-		int userId=104;
+		int userId=524;
 		if(session==null)
 		{
-			userId=108;
 			session=request.getSession(true);
 			session.setAttribute("userId", userId);
 		}
@@ -76,6 +76,12 @@ public class ControllerServlet extends HttpServlet {
 	    {
 	    	UserImportService.addUsers(json);
 	    	System.out.println("success");
+	    }
+	    else if(action.equalsIgnoreCase("registerUser"))
+	    {
+	    	System.out.println(json.toJSONString());
+	    	RegisterUserService.registerUser(json);
+	    	System.out.println("Success");
 	    }
 	    else if(action.equalsIgnoreCase("getTeam"))
 	    {
