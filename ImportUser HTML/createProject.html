@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+http=new XMLHttpRequest();
+function process()
+{
+	
+	pname=document.getElementById("pname").value;
+	description=document.getElementById("description").value;
+	var data={"pname":pname,"description":description,"userIds":[123,435,45]};
+	data=JSON.stringify(data);
+	http.onreadystatechange=displayData;
+	http.open("POST","addProject",true);
+	http.setRequestHeader("Content-type","application/json;charset=UTF-8");
+	http.send(data);
+
+	}
+function displayData()
+{
+	if(http.readyState==4&&http.status==200)
+		{
+		    res=http.responseText;
+		    data=JSON.parse(res);
+		    text="";
+		    text=text+data.pname+"<br>";
+		    text=text+data.description+"<br>";
+		    for(i=0;i<data.userIds.length;i++)
+		    	text=text+data.userIds[i]+"<br>";
+			document.getElementById("display").innerHTML=text;
+		}
+	}
+</script>
+<input type="text" id="pname" ><br>
+<input type="text" id="description" ><br>
+<button onclick="process()">Click here</button>
+<div id="display" > </div>
+</body>
+</html>
