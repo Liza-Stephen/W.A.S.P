@@ -33,7 +33,6 @@
 					<div class="form center-align">
 					
 					<!-- Compiled and minified JavaScript -->
-<form action="testServlet" method="POST">
 						
 					<div class = "file-field input-field">
                   		<div class = "btn">
@@ -79,8 +78,6 @@
                     
                   </div>
                		</div>
-               				<button type="submit" class="btn">Submit </button>
-               		</form>
           					  </div>
 						
 					</div>
