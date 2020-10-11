@@ -14,4 +14,9 @@ public class RoleService {
 		List<Integer> users=roles.getUserByRole(role);
 		return users;
 	}
+	public static String getRole(int userId)
+	{
+		RolesInterface rs=ForwardMethod.getRoleInterface();
+		return rs.getRole(userId);
+	}
 }

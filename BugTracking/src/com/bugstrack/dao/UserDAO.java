@@ -38,7 +38,7 @@ public class UserDAO implements UserInterface {
     {
     	int userId=getUserIdByemail(emailId);
     	User user=getUser(userId);
-    	if(!user.isRegistered())
+    	if(user.isRegistered())
     		System.out.println("Allready "); // throw exception
     	
     	String query="update users set password=?,isRegistered=? where userId=?";
