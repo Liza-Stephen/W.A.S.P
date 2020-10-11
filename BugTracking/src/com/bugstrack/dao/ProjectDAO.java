@@ -12,6 +12,9 @@ import org.apache.derby.iapi.store.raw.PageTimeStamp;
 
 import com.bugstrack.db.DatabaseConnection;
 import com.bugstrack.domain.Project;
+import com.bugstrack.exceptions.ProjectAlreadyAddedException;
+import com.bugstrack.exceptions.ProjectDoesNotExistExeption;
+import com.bugstrack.exceptions.UserDoesNotExistException;
 import com.bugstrack.interfaces.ProjectInterface;
 
 public class ProjectDAO implements ProjectInterface {
@@ -21,7 +24,7 @@ public class ProjectDAO implements ProjectInterface {
 		projectDao=DatabaseConnection.getConnection();
 	}
 
-	public void addProject(Project p) {
+	public void addProject(Project p) throws ProjectAlreadyAddedException{
 		// TODO Auto-generated method stub
         String query ="insert into project(pname,description,startDate,status,manager) values(?,?,?,?,?)";
         java.util.Date temp=p.getStartDate();
@@ -61,7 +64,7 @@ public class ProjectDAO implements ProjectInterface {
 		// close();
 		return status;
     }
-	public Project getProject(int pid) {
+	public Project getProject(int pid) throws ProjectDoesNotExistExeption{
 		// TODO Auto-generated method stub
 		Project p=null;
 		String query="select * from project where pid=?";
@@ -164,7 +167,7 @@ public class ProjectDAO implements ProjectInterface {
 		
     	return res;
     }
-	public int getManager(int pid)
+	public int getManager(int pid) throws UserDoesNotExistException
 	{
 		int manager=0;
 		String query="select manager from project where pid=?";

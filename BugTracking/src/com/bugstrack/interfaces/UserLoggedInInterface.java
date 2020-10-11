@@ -1,15 +1,14 @@
 package com.bugstrack.interfaces;
 
-import java.sql.SQLException;
-
-import com.wasp.exceptions.UserAlreadyLoggedInException;
-import com.wasp.exceptions.UserNotLoggedInException;
+import com.bugstrack.exceptions.CustomSQLException;
+import com.bugstrack.exceptions.UserAlreadyLoggedInException;
+import com.bugstrack.exceptions.UserNotLoggedInException;
 
 public interface UserLoggedInInterface {
 	
-	public boolean isCurrentlyLoggedIn(int userId) throws SQLException;
+	public boolean isCurrentlyLoggedIn(int userId) throws CustomSQLException;
 	
-	public void logOut(int userId) throws UserNotLoggedInException;
+	public void logOut(int userId) throws UserNotLoggedInException, CustomSQLException;
 	
 	public void logIn(int userId) throws UserAlreadyLoggedInException;
 	

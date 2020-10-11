@@ -11,6 +11,10 @@ import java.util.List;
 
 import com.bugstrack.db.DatabaseConnection;
 import com.bugstrack.domain.Bug;
+import com.bugstrack.exceptions.AlreadyMarkedForClosing;
+import com.bugstrack.exceptions.BugAlreadyClosedException;
+import com.bugstrack.exceptions.BugAlreadyExistsException;
+import com.bugstrack.exceptions.EmptyBugsListException;
 import com.bugstrack.interfaces.BugInterface;
 
 public class BugDAO implements BugInterface {
@@ -20,27 +24,44 @@ public class BugDAO implements BugInterface {
 		super();
 		bugDao=DatabaseConnection.getConnection();
 	}
-
-	public void add(Bug bug) {
+	
+	@Override
+	public boolean getIsMarkedforClosing(int bugId) {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
-	public void markforclosing(int bugId) {
+	@Override
+	public void add(Bug bug) throws BugAlreadyExistsException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
-	public void closeBug(int bugId) {
-		// TODO Auto-generated method stub
 
-	}
-    public boolean getIsMarkedforClosing(int bugId)
-    {
-    	return false;
-    }
-	public List<Bug> getBugs(int pId) {
+	@Override
+	public void markforclosing(int bugId) throws AlreadyMarkedForClosing {
 		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void closeBug(int bugId) throws BugAlreadyClosedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void close() {
+		bugDao=null;
+		DatabaseConnection.close();
+		
+	}
+
+
+	@Override
+	public List<Bug> getBugs(int pId) throws EmptyBugsListException {
 		String query="select * from bugs where pid=?";
 		List<Bug> list=null;
 		try {
@@ -64,15 +85,16 @@ public class BugDAO implements BugInterface {
 				list.add(new Bug(bugId, title, description, pId, testerId, openDate, assignedto, isMarkedforClosing, closedBy, closedOn, status, severityLevel));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// close();
+		
 		return list;
 	}
-	public int lastrowAdded()
-    {
-    	String query="select max(bugId) from bugs";
+
+
+	@Override
+	public int lastrowAdded() {
+		String query="select max(bugId) from bugs";
     	Statement stmt;
     	int res=0;
 		try {
@@ -83,15 +105,11 @@ public class BugDAO implements BugInterface {
 				res=rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// close();
     	return res;
-    }
-	public void close()
-	{
-		bugDao=null;
-		DatabaseConnection.close();
 	}
+
+	
 }

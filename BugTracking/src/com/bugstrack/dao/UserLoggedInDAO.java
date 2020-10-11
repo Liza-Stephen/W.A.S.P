@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import com.bugstrack.db.DatabaseConnection;
+import com.bugstrack.exceptions.CustomSQLException;
+import com.bugstrack.exceptions.UserAlreadyLoggedInException;
+import com.bugstrack.exceptions.UserNotLoggedInException;
 import com.bugstrack.interfaces.UserLoggedInInterface;
-import com.wasp.exceptions.UserAlreadyLoggedInException;
-import com.wasp.exceptions.UserNotLoggedInException;
 
 public class UserLoggedInDAO implements UserLoggedInInterface{
 	private Connection con;
@@ -19,25 +19,23 @@ public class UserLoggedInDAO implements UserLoggedInInterface{
 	}
 
 	@Override
-	public boolean isCurrentlyLoggedIn(int userId) {
-		Statement st;
+	public boolean isCurrentlyLoggedIn(int userId) throws CustomSQLException {
+		ResultSet rs;
 		try {
-			ResultSet rs = con.createStatement().executeQuery("select userid from usercurrentlogged where userid = "+userId);
+			rs = con.createStatement().executeQuery("select userid from usercurrentlogged where userid = "+userId);
 			if(rs.first()) {
 				return false;
 			}
 				else {
 					return true;
 				}
-			st.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new CustomSQLException();
 		}
-		return false;
 	}
 
 	@Override
-	public void logOut(int userId) throws UserNotLoggedInException {
+	public void logOut(int userId) throws UserNotLoggedInException, CustomSQLException {
 		PreparedStatement pst;
 		try {
 			pst = con.prepareStatement("delete from usercurrentlogged where userid = ?");
@@ -45,10 +43,8 @@ public class UserLoggedInDAO implements UserLoggedInInterface{
 			pst.executeUpdate();
 			pst.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new CustomSQLException();
 		}
-		
-	}
 		
 	}
 
@@ -65,5 +61,4 @@ public class UserLoggedInDAO implements UserLoggedInInterface{
 		}
 		
 	}
-
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bugstrack.db.DatabaseConnection;
+import com.bugstrack.exceptions.RoleDoesNotExistException;
 import com.bugstrack.interfaces.RolesInterface;
 
 public class RolesDAO implements RolesInterface {
@@ -18,7 +19,7 @@ public class RolesDAO implements RolesInterface {
 	    rolesDao=DatabaseConnection.getConnection();
 	}
 
-	public void addRoles(int userId, String role) {
+	public void addRoles(int userId, String role) throws RoleDoesNotExistException{
 		// TODO Auto-generated method stub
        String query="insert into roles(userId,role) values(?,?)";
        try {
@@ -30,8 +31,7 @@ public class RolesDAO implements RolesInterface {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-       
-	}
+  }
 
 	public String getRole(int userId) {
 		// TODO Auto-generated method stub
@@ -51,8 +51,10 @@ public class RolesDAO implements RolesInterface {
 		}
 		return roles;
 	}
-    public List<Integer> getUserByRole(String role)
-    {
+	
+	
+	
+    public List<Integer> getUserByRole(String role) throws RoleDoesNotExistException{
     	List<Integer> users=null;
 		String query="select userId from roles where role=?";
 		try {

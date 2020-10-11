@@ -12,50 +12,32 @@ import java.util.List;
 
 import com.bugstrack.db.DatabaseConnection;
 import com.bugstrack.domain.User;
+import com.bugstrack.exceptions.UserAlreadyRegisteredException;
+import com.bugstrack.exceptions.UserDoesNotExistException;
+import com.bugstrack.exceptions.UserNotFoundException;
 import com.bugstrack.interfaces.UserInterface;
 
 public class UserDAO implements UserInterface {
     private Connection userDao;
-    public UserDAO()
-    {
+    public UserDAO(){
     	userDao=DatabaseConnection.getConnection();
     }
-	public void addUser(User user) {
-		// TODO Auto-generated method stub
-     String query="insert into users(userName,emailId) values(?,?)";
-     try {
-		PreparedStatement ps=userDao.prepareStatement(query);
-		ps.setString(1, user.getUserName());
-		ps.setString(2, user.getEmailId());
-		ps.executeUpdate();
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-    // close();
-	}
-    public void registerUser(String emailId,String password)
-    {
-    	int userId=getUserIdByemail(emailId);
-    	User user=getUser(userId);
-    	if(user.isRegistered())
-    		System.out.println("Allready "); // throw exception
-    	
-    	String query="update users set password=?,isRegistered=? where userId=?";
-    	try {
+	@Override
+	public void addUser(User user) throws UserDoesNotExistException {
+		String query="insert into users(userName,emailId) values(?,?)";
+	     try {
 			PreparedStatement ps=userDao.prepareStatement(query);
-			ps.setString(1, password);
-			ps.setBoolean(2, true);
-			ps.setInt(3, userId);
+			ps.setString(1, user.getUserName());
+			ps.setString(2, user.getEmailId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace(); // throw exception
+			e.printStackTrace();
 		}
-    	// close();
-    }
-	public User getUser(int userId) {
-		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public User getUser(int userId) throws UserDoesNotExistException {
 		String query ="select * from users where userId=?";
 		PreparedStatement ps;
 		User user=null;
@@ -74,9 +56,8 @@ public class UserDAO implements UserInterface {
 		// close();
 		return user;
 	}
-
+	@Override
 	public List<Integer> getAllUser() {
-		// TODO Auto-generated method stub
 		String query ="select userId from users";
 		List<Integer> list=null;
 		Statement stmt;
@@ -96,9 +77,9 @@ public class UserDAO implements UserInterface {
 		// close();
 		return list;
 	}
-    public int lastrowAdded()
-    {
-    	String query="select max(userId) from users";
+	@Override
+	public int lastrowAdded() {
+		String query="select max(userId) from users";
     	Statement stmt;
     	int res=0;
 		try {
@@ -114,15 +95,15 @@ public class UserDAO implements UserInterface {
 		}
 		// close();
     	return res;
-    }
-    public void updatePassword(String emailId,String password)
-    {
-    	
-    }
-    public void updateLastLogin(String emailId)
-    {
-    	
-    	String query="update users set lastLogin=? where emailId=?";
+	}
+	@Override
+	public void updatePassword(String emailId, String password) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void updateLastLogin(String emailId) {
+		String query="update users set lastLogin=? where emailId=?";
     	try {
 			PreparedStatement ps=userDao.prepareStatement(query);
 			Date date=new Date();
@@ -134,10 +115,31 @@ public class UserDAO implements UserInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace(); // throw exception
 		}
-    }
-    public int getUserIdByemail(String emailId)
-    {
-    	int res=0;
+		
+	}
+	@Override
+	public void registerUser(String emailId, String password) throws UserAlreadyRegisteredException, UserNotFoundException, UserDoesNotExistException {
+		int userId=getUserIdByemail(emailId);
+    	User user=getUser(userId);
+    	if(user.isRegistered())
+    		System.out.println("Allready "); // throw exception
+    	
+    	String query="update users set password=?,isRegistered=? where userId=?";
+    	try {
+			PreparedStatement ps=userDao.prepareStatement(query);
+			ps.setString(1, password);
+			ps.setBoolean(2, true);
+			ps.setInt(3, userId);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace(); // throw exception
+		}
+		
+	}
+	@Override
+	public int getUserIdByemail(String emailId) throws UserNotFoundException {
+		int res=0;
     	String query="select userId from users where emailId=?";
     	try {
 			PreparedStatement ps=userDao.prepareStatement(query);
@@ -152,10 +154,12 @@ public class UserDAO implements UserInterface {
 			e.printStackTrace();
 		}
     	return res;
-    }
-	public void close()
-	{
+	}
+	@Override
+	public void close() {
 		userDao=null;
 		DatabaseConnection.close();
+		
 	}
+
 }
