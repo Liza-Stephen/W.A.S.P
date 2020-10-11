@@ -16,10 +16,11 @@ public class DevloperMarkOfClosing extends HttpServlet {
        
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name=request.getParameter("bugname");
+		String id=request.getParameter("bugid");
+		int bugid=Integer.parseInt(id);
 		Dao d= DaoFactory.getDao("Bug");
 		try {
-			d.MarkForClosing(name);
+			d.MarkForClosing(bugid);
 		} catch (BugNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

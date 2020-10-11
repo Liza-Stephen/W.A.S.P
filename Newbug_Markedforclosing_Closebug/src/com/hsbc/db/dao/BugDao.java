@@ -31,35 +31,33 @@ public class BugDao implements Dao {
 			
 			try {
 				
-				 
-				st = "select pid from project where pname=" + name;
-				String st1 = "select status from project where pname=" + name;
+	
 				con = DBUtility.getConnection();
 				
-				stmt = con.createStatement();
+				PreparedStatement pst1 = con.prepareStatement("select * from project where pname=?");
+				pst1.setString(1, name);
 				PreparedStatement pst = con.prepareStatement("insert into  bugs(title,description,severitylevel,pid,opendate,testerid) values(?,?,?,?,?,?);");
-				ResultSet rs = stmt.executeQuery(st);
+				ResultSet rs = pst1.executeQuery();
 				
 				if (rs.next()) {
 					int id = rs.getInt(1);
-					ResultSet rs1 = stmt.executeQuery(st1);
-					if(rs1.next()) {
-						String status=rs1.getString(1);
-						String str1="In-progress";
-						if(status.equals(str1)) {
-							pst.setString(2, title);
-							pst.setString(3, desc);
-							pst.setInt(4,id);
-							pst.setInt(5,testerid);
-							Date opendate=Date.valueOf(date);
-							pst.setDate(6,opendate );
-							pst.setString(12, severity);
-
-							pst.executeUpdate();
-						}
-						else
-							throw new ProjectCompletedException();
+					String status=rs.getString(5);
+					String str1="In-progress";
+					
+						
+					if(status.equals(str1)) {
+						pst.setString(1, title);
+						pst.setString(2, desc);
+						pst.setString(3, severity);
+						pst.setInt(4,id);
+						Date opendate=Date.valueOf(date);
+						pst.setDate(5,opendate );
+						pst.setInt(6,testerid);
+						pst.executeUpdate();
 					}
+					else
+						throw new ProjectCompletedException();
+					
 					
 					
 				}
@@ -78,10 +76,10 @@ public class BugDao implements Dao {
 	}
 
 	@Override
-	public void MarkForClosing(String name) throws BugNotFoundException {
+	public void MarkForClosing(int id) throws BugNotFoundException {
 		try {
-		st = "select bugid from bugs where title=" + name;
-		String st1="update bugs set ismarkedforclosing='true' where title="+name;
+		st = "select * from bugs where bugid=" + id;
+		String st1="update bugs set ismarkedforclosing='true' where bugid="+id;
 		con = DBUtility.getConnection();
 		stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery(st);
@@ -98,20 +96,20 @@ public class BugDao implements Dao {
 	}
 
 	@Override
-	public void CloseBug(String name,String date,int closedby) throws NotMarkedClosedException {
+	public void CloseBug(int id,String date,int closedby) throws NotMarkedClosedException {
 		try {
-			st = "select ismarkedforclosing from bugs where title=" + name;
-			String st1="update bugs set closedon =?,closedby =? where title="+name;
+			st = "select ismarkedforclosing from bugs where bugid=?";
+			String st1="update bugs set closedon =?,closedby =? where bugid=?";
 			con = DBUtility.getConnection();
-			stmt = con.createStatement();
+			PreparedStatement pst1=con.prepareStatement(st);
+			pst1.setInt(1,id);
 			PreparedStatement pst=con.prepareStatement(st1);
-			ResultSet rs = stmt.executeQuery(st);
+			ResultSet rs = pst1.executeQuery();
 			if (rs.next()) {
-				pst.setInt(9,closedby);
 				Date closedon=Date.valueOf(date);
-				pst.setDate(10,closedon );
-				
-
+				pst.setDate(1,closedon );
+				pst.setInt(2,closedby);
+				pst.setInt(3,id);
 				pst.executeUpdate();
 			}
 			else

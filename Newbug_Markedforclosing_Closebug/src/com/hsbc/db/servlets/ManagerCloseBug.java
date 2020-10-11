@@ -15,13 +15,14 @@ public class ManagerCloseBug extends HttpServlet {
        
   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name=request.getParameter("bugname");
+		String id1=request.getParameter("bugid");
+		int bugid=Integer.parseInt(id1);
 		String date=request.getParameter("date");
 		String id=request.getParameter("managerid");
 		int managerid=Integer.parseInt(id);
 		Dao d= DaoFactory.getDao("Bug");
 		try {
-			d.CloseBug(name,date,managerid);;
+			d.CloseBug(bugid,date,managerid);;
 		} catch (NotMarkedClosedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

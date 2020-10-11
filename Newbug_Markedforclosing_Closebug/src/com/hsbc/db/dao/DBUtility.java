@@ -9,7 +9,7 @@ public class DBUtility {
 	static Connection con;
 	static {
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
 			con = DriverManager.getConnection("jdbc:derby:F:/derbydb/bugtrack");
 		}
 		catch(Exception e) {
