@@ -1,32 +1,72 @@
 package com.wasp.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.wasp.database.DatabaseConnect;
 import com.wasp.entity.Roles;
 import com.wasp.entity.User;
 import com.wasp.exceptions.FieldNotMatchingWithExistingDB;
 import com.wasp.exceptions.UserAlreadyRegisteredException;
-import com.wasp.interfaces.RegisterInterface;
+import com.wasp.exceptions.UserCannotLoginException;
+import com.wasp.interfaces.UserInterface;
 
-public class RegisterDAO implements RegisterInterface{
-	/*Tasks
-	1. Create a connection as static
-	2. Take the input from the user their user name, email, role and check if they
-		are already registered.
-	3. If registered, throw UserAlreadyRegisteredException
-	4. If not then query and compare the email and role entered by the user from the form
-		to be same as that stored in the database, if so then store the password entered by him
-		else throw FieldNotMatchingWithExistingDatabase exception for log.
-	5. Return a success status code through the Servlet.
-	*/
-//	Connection connection;
+
+public class UserDAO implements UserInterface{
+	Connection con;
+	String query;
+	Statement stmt;
+	PreparedStatement pst;
+	ResultSet rs;
+	User u;
+	
+	@Override
+	public User getUser(String emailId) throws UserCannotLoginException {
+		con = DatabaseConnect.connect();
+		
+		try {
+			query = "select * from users where emailId='" + emailId+"'";
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			if(rs.next()) {
+				int userId = rs.getInt(1);
+				String userName = rs.getString(2);
+				String password = rs.getString(4);
+				Timestamp lastLogin = rs.getTimestamp(5);
+				boolean isRegistered = rs.getBoolean(6);
+				u =new User(userId, userName, emailId, password, lastLogin, isRegistered);
+				
+			}
+			else {
+				throw new UserCannotLoginException(u.getUserId(), u.getLastLogin());
+			}
+		}
+		catch(SQLException ex) {
+			ex.printStackTrace();		}
+		return u;
+	}
+	
+	@Override
+	public int updateLastLogin(User u) {
+		con = DatabaseConnect.connect();
+		try {
+			query = "update users set lastLoggedIn=? where userId=?";
+			pst = con.prepareStatement(query);
+			pst.setTimestamp(1,u.getLastLogin());
+			pst.setInt(2,u.getUserId());
+			int num = pst.executeUpdate();
+			return num;
+		}
+		catch(SQLException ex) {
+			ex.printStackTrace();	
+		}
+		//if the function returns -1 then update last login failed
+		return -1;
+	}
 	
 	@Override
 	public void registerUser(User user,Roles role) throws UserAlreadyRegisteredException, FieldNotMatchingWithExistingDB, SQLException {
@@ -54,14 +94,11 @@ public class RegisterDAO implements RegisterInterface{
 					timestamp = resultquery.getTimestamp("lastLoggedIn");
 					isRegistered = resultquery.getBoolean("isRegistered");
 					System.out.println(roleUser+" "+email+" "+timestamp);
-					//String role = resultquery2.getString(3);
-					//change isRegistered to True
 					if(isRegistered) {
 						throw new UserAlreadyRegisteredException(userId, timestamp);
 					}
 					if(user.getEmailId().equalsIgnoreCase(email) && role.getRole().equalsIgnoreCase(roleUser) ) {
-//						System.out.println(user.getPassword());
-//						System.out.println(user.getUserId());
+
 						st2.executeUpdate("update users set password ='"+user.getPassword() +"' where userid="+user.getUserId());
 					}
 					else {
@@ -81,6 +118,4 @@ public class RegisterDAO implements RegisterInterface{
 	}
 	
 	
-	
-
 }

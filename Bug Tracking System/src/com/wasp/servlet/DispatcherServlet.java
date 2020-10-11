@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.wasp.forwards.LoginForward;
 import com.wasp.forwards.RegisterForward;
+import com.wasp.forwards.UserForward;
 
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -31,10 +32,10 @@ public class DispatcherServlet extends HttpServlet {
 		
 		
 		if(action.equalsIgnoreCase("register")) {
-			RegisterForward.performRegister(email, password, role); //Enter these details here
+			UserForward.performRegister(email, password, role); //Enter these details here
 		}
 		else if(action.equalsIgnoreCase("login")) {
-			LoginForward.performLogin(email, password); //Enter these details here
+			UserForward.performLogin(email, password); //Enter these details here
 			
 		}
 		else if(action.equalsIgnoreCase("importUser")) {
