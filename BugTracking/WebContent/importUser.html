@@ -1,0 +1,33 @@
+<input type='file' accept='application/json' onchange='openFile(event)'><br>
+<div id='output'></div>
+<script>
+ var http=new XMLHttpRequest();
+  var openFile = function(event) {
+    var input = event.target;
+
+    var reader = new FileReader();
+    reader.onload = function(){
+      var text = reader.result;
+      process(text);
+    //  console.log(reader.result.substring(0, 200));
+    };
+    reader.readAsText(input.files[0]);
+  };
+  function process(text)
+  {
+	  data={"file":JSON.parse(text),"action":"importUser"};
+	  data=JSON.stringify(data);
+	   http.onreadystatechange=display;
+		http.open("POST","controller",true);
+		http.setRequestHeader("Content-type","application/json;charset=UTF-8");
+		http.send(data);
+  }
+  function display()
+  {
+	  if(http.readyState==4&&http.status==200)
+	  {
+	  	res=http.responseText;
+	  	document.getElementById("display").innerHTML=res;
+	  	}
+  }
+</script>

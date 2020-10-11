@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>BugTracking</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>importUser.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description>process all the request from server and serve them</description>
+    <display-name>ControllerServlet</display-name>
+    <servlet-name>ControllerServlet</servlet-name>
+    <servlet-class>com.bugstrack.servlet.ControllerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerServlet</servlet-name>
+    <url-pattern>/controller</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ImportUserServlet</display-name>
+    <servlet-name>ImportUserServlet</servlet-name>
+    <servlet-class>com.bugstrack.servlet.ImportUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ImportUserServlet</servlet-name>
+    <url-pattern>/importUser</url-pattern>
+  </servlet-mapping>
+</web-app>
