@@ -1,7 +1,5 @@
 package com.bugstrack.domain;
 
-import java.util.Date;
-
 public class Bug implements Comparable<Bug> {
 	
 	private int bugId;
@@ -9,14 +7,14 @@ public class Bug implements Comparable<Bug> {
 	private String  description;
 	private int pid;
 	private int testerId;
-	private Date openDate;
+	private String openDate;
 	private int  assignedto;
 	private boolean  isMarkedforClosing;
 	private int closedBy;
-	private Date closedOn;
+	private String closedOn;
 	private String status;
 	private String  severityLevel;
-	public Bug(String title, String description, int pid, int testerId, Date openDate, String status,
+	public Bug(String title, String description, int pid, int testerId, String openDate, String status,
 			String severityLevel) {
 		super();
 		this.title = title;
@@ -27,8 +25,8 @@ public class Bug implements Comparable<Bug> {
 		this.status = status;
 		this.severityLevel = severityLevel;
 	}
-	public Bug(int bugId, String title, String description, int pid, int testerId, Date openDate, int assignedto,
-			boolean isMarkedforClosing, int closedBy, Date closedOn, String status, String severityLevel) {
+	public Bug(int bugId, String title, String description, int pid, int testerId, String openDate, int assignedto,
+			boolean isMarkedforClosing, int closedBy, String closedOn, String status, String severityLevel) {
 		super();
 		this.bugId = bugId;
 		this.title = title;
@@ -73,10 +71,10 @@ public class Bug implements Comparable<Bug> {
 	public void setTesterId(int testerId) {
 		this.testerId = testerId;
 	}
-	public Date getOpenDate() {
+	public String getOpenDate() {
 		return openDate;
 	}
-	public void setOpenDate(Date openDate) {
+	public void setOpenDate(String openDate) {
 		this.openDate = openDate;
 	}
 	public int getAssignedto() {
@@ -97,10 +95,10 @@ public class Bug implements Comparable<Bug> {
 	public void setClosedBy(int closedBy) {
 		this.closedBy = closedBy;
 	}
-	public Date getClosedOn() {
+	public String getClosedOn() {
 		return closedOn;
 	}
-	public void setClosedOn(Date closedOn) {
+	public void setClosedOn(String closedOn) {
 		this.closedOn = closedOn;
 	}
 	public String getStatus() {

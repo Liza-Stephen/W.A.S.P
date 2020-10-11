@@ -38,4 +38,9 @@ public class ForwardMethod {
   public static UserLoggedInInterface getUserLoggedInInterface() {
 	  return new UserLoggedInDAO();
   }
+  
+  public static BugInterface getDao(String type) {
+		return new BugDAO();
+	}
+  
 }
