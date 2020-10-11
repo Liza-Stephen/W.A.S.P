@@ -27,52 +27,49 @@ public class RegisterDAO implements RegisterInterface{
 	5. Return a success status code through the Servlet.
 	*/
 //	Connection connection;
-	Map<Integer, User> userDataMap = new HashMap<>();
-	User user;
-	Roles role;
 	
-	
-	//Task 1.
-	public RegisterDAO(User user, Roles role) {
-		
-		this.user = user;
-		this.role = role;
-	}
-	
-//	static {
-//		connection = DatabaseConnect.connect();
-//	}
-
 	@Override
-	public void registerUser() throws UserAlreadyRegisteredException, FieldNotMatchingWithExistingDB, SQLException {
+	public void registerUser(User user,Roles role) throws UserAlreadyRegisteredException, FieldNotMatchingWithExistingDB, SQLException {
 		
 		Connection connection = DatabaseConnect.connect();
 		//connection.setAutoCommit(false);
 		//Task 2 done, Task 3.
-		Statement statement1 = connection.createStatement();
-		Statement statement2 = connection.createStatement();
-		System.out.println(user.getUserId());
-		ResultSet resultquery1 = statement1.executeQuery("select * from users");
-		ResultSet resultquery2 = statement2.executeQuery("select role from roles where userid = "+ user.getUserId());
+		Statement st1 = connection.createStatement();
+		Statement st2 = connection.createStatement();
+		ResultSet resultquery = st1.executeQuery("select * from roles inner join users on roles.userid = users.userid where users.userid = "+user.getUserId());
 		
-		
+		//Declaring variables below
+		String roleUser;
+		int userId;
+		String email;
+		Timestamp timestamp;
+		boolean isRegistered;
 		
 		//Task 4
-			String roleUser = resultquery2.getString(2);
-			String email = resultquery1.getString(4); //created field is emailId and not email in the table.
-			Timestamp timestamp = resultquery1.getTimestamp(5);
-			//String role = resultquery2.getString(3);
-			if(timestamp!=null) {
-				throw new UserAlreadyRegisteredException();
+		
+			while(resultquery.next()) {
+					roleUser = resultquery.getString("role");
+					userId = resultquery.getInt("userId");
+					email = resultquery.getString("emailId"); //created field is emailId and not email in the table.
+					timestamp = resultquery.getTimestamp("lastLoggedIn");
+					isRegistered = resultquery.getBoolean("isRegistered");
+					System.out.println(roleUser+" "+email+" "+timestamp);
+					//String role = resultquery2.getString(3);
+					//change isRegistered to True
+					if(isRegistered) {
+						throw new UserAlreadyRegisteredException(userId, timestamp);
+					}
+					if(user.getEmailId().equalsIgnoreCase(email) && role.getRole().equalsIgnoreCase(roleUser) ) {
+//						System.out.println(user.getPassword());
+//						System.out.println(user.getUserId());
+						st2.executeUpdate("update users set password ='"+user.getPassword() +"' where userid="+user.getUserId());
+					}
+					else {
+						throw new FieldNotMatchingWithExistingDB(userId, user.getLastLogin());
+					}
+				
 			}
-			if(user.getEmailId().equalsIgnoreCase(email) && role.getRole().equalsIgnoreCase(roleUser) ) {
-//				System.out.println(user.getPassword());
-//				System.out.println(user.getUserId());
-				statement2.executeUpdate("update users set password ='"+user.getPassword() +"' where userid="+user.getUserId());
-			}
-			else {
-				throw new FieldNotMatchingWithExistingDB(user.getLastLogin());
-			}
+			
 			//statement1.close();
 		
 		

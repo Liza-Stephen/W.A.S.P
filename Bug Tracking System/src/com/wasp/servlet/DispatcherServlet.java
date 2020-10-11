@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.wasp.forwards.LoginForward;
+import com.wasp.forwards.RegisterForward;
 
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +23,7 @@ public class DispatcherServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Handle All Of The Post Requests Below By Checking The Action Parameter
 		String action = request.getParameter("action");
-		
+		//Handle json data below
 		
 		
 		
@@ -30,10 +31,11 @@ public class DispatcherServlet extends HttpServlet {
 		
 		
 		if(action.equalsIgnoreCase("register")) {
-			//Forward request to register class
+			RegisterForward.performRegister(email, password, role); //Enter these details here
 		}
 		else if(action.equalsIgnoreCase("login")) {
-			LoginForward.performLogin();
+			LoginForward.performLogin(email, password); //Enter these details here
+			
 		}
 		else if(action.equalsIgnoreCase("importUser")) {
 			//Forward the request for importing user into the database.

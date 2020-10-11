@@ -1,32 +1,38 @@
 package com.wasp.forwards;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import com.wasp.entity.Roles;
 import com.wasp.entity.User;
 import com.wasp.exceptions.FieldNotMatchingWithExistingDB;
 import com.wasp.exceptions.UserAlreadyRegisteredException;
+import com.wasp.exceptions.UserCannotLoginException;
 import com.wasp.factory.ForwardMethods;
-import com.wasp.interfaces.RegisterInterface;
 
 public class RegisterForward {
 	
-	public static void performRegister() {
+	public static void performRegister(String email,String password,String role) {
 		
 		//Create a user object and provide below after fetching it from the front-end.
-		User user = new User(); //Change this and pass user object after fetching and creating it from the front-end
-		Roles role = new Roles(userId, role); //Change this and pass role obj after creating it from the front-end
-		RegisterInterface registerInterface = ForwardMethods.registerUser(user,role);
+		
 		try {
-			registerInterface.registerUser();
-		} catch (UserAlreadyRegisteredException | FieldNotMatchingWithExistingDB | SQLException e) {
-			// Handle exceptions here and log them as required
-			
+			Timestamp date = new java.sql.Timestamp(new Date().getTime());
+			User tempuser = ForwardMethods.loginUser().getUser(email);
+			User user = new User(tempuser.getUserId(), tempuser.getUserName(), email, password, date, tempuser.getIsRegistered());
+			Roles userrole = new Roles(tempuser.getUserId(), role);
+			try {
+				ForwardMethods.registerUser().registerUser(user, userrole);
+			} catch (UserAlreadyRegisteredException | FieldNotMatchingWithExistingDB | SQLException e) {
+				//Log these exception here
+			}
+		} catch (UserCannotLoginException e1) {
+			//Handle exception here and log
 		}
 		
+	
+	
 	}
-	
-	
-	
 
 }

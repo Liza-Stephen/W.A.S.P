@@ -26,7 +26,7 @@ public class LoginDAO implements LoginInterface{
 		con = DatabaseConnect.connect();
 		
 		try {
-			query = "select * from users where emailId=" + emailId;
+			query = "select * from users where emailId='" + emailId+"'";
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
 			if(rs.next()) {
@@ -51,7 +51,7 @@ public class LoginDAO implements LoginInterface{
 	public int updateLastLogin(User u) {
 		con = DatabaseConnect.connect();
 		try {
-			query = "update users set lastLogin=? where userId=?";
+			query = "update users set lastLoggedIn=? where userId=?";
 			pst = con.prepareStatement(query);
 			pst.setTimestamp(1,u.getLastLogin());
 			pst.setInt(2,u.getUserId());

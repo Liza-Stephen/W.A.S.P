@@ -14,8 +14,8 @@ public class ForwardMethods {
 	}
 	
 	
-	public static RegisterInterface registerUser(User user,Roles role) {
-		return new RegisterDAO(user,role);
+	public static RegisterInterface registerUser() {
+		return new RegisterDAO();
 	}
 
 }
