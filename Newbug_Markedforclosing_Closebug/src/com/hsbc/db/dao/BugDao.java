@@ -32,8 +32,8 @@ public class BugDao implements Dao {
 			try {
 				
 				 
-				st = "select pid from project where pName=" + name;
-				String st1 = "select status from project where pName=" + name;
+				st = "select pid from project where pname=" + name;
+				String st1 = "select status from project where pname=" + name;
 				con = DBUtility.getConnection();
 				
 				stmt = con.createStatement();
