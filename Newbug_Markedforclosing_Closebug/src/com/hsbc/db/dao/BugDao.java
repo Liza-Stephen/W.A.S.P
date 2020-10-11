@@ -106,14 +106,19 @@ public class BugDao implements Dao {
 			PreparedStatement pst=con.prepareStatement(st1);
 			ResultSet rs = pst1.executeQuery();
 			if (rs.next()) {
+				boolean m=rs.getBoolean(8);
+				if(m) {
 				Date closedon=Date.valueOf(date);
 				pst.setDate(1,closedon );
 				pst.setInt(2,closedby);
 				pst.setInt(3,id);
 				pst.executeUpdate();
+				}
+				else
+					throw new NotMarkedClosedException();
 			}
-			else
-				throw new NotMarkedClosedException();
+			
+			
 			
 			}catch (SQLException e1) {
 				e1.printStackTrace();
