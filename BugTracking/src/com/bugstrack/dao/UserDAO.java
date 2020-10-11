@@ -117,6 +117,7 @@ public class UserDAO implements UserInterface {
 		// close();
     	return res;
     }
+    
     public void updatePassword(String emailId,String password)
     {
     	

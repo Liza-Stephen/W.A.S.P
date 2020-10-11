@@ -15,8 +15,8 @@ import com.bugstrack.domain.Project;
 import com.bugstrack.interfaces.ProjectInterface;
 
 public class ProjectDAO implements ProjectInterface {
-    private Connection projectDao;
-    
+    	
+	private Connection projectDao;
 	public ProjectDAO() {
 		projectDao=DatabaseConnection.getConnection();
 	}

@@ -27,11 +27,6 @@ import com.bugstrack.service.ProjectService;
 import com.bugstrack.service.TeamService;
 import com.bugstrack.service.UserImportService;
 
-
-
-/**
- * Servlet implementation class AddProjectServlet
- */
 public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

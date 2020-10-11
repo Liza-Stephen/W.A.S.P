@@ -1,17 +1,18 @@
 package com.bugstrack.factory;
 
-import java.awt.image.BufferedImage;
 
 import com.bugstrack.dao.BugDAO;
 import com.bugstrack.dao.ProjectDAO;
 import com.bugstrack.dao.RolesDAO;
 import com.bugstrack.dao.TeamDAO;
 import com.bugstrack.dao.UserDAO;
+import com.bugstrack.dao.UserLoggedInDAO;
 import com.bugstrack.interfaces.BugInterface;
 import com.bugstrack.interfaces.ProjectInterface;
 import com.bugstrack.interfaces.RolesInterface;
 import com.bugstrack.interfaces.TeamInterface;
 import com.bugstrack.interfaces.UserInterface;
+import com.bugstrack.interfaces.UserLoggedInInterface;
 
 public class ForwardMethod {
   public static ProjectInterface getProjectInterface()
@@ -32,5 +33,9 @@ public class ForwardMethod {
   public static RolesInterface getRoleInterface()
   {
 	  return new RolesDAO();
+  }
+  
+  public static UserLoggedInInterface getUserLoggedInInterface() {
+	  return new UserLoggedInDAO();
   }
 }
