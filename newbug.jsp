@@ -54,8 +54,8 @@
 <!-- Project Name: <input type="text" id="pName"/> -->
 <br> <br>
 <div id='projects_div'>
-	
 </div>
+Pick and add project: <input type="text"  id="addProject"/>
 Title: <input type="text" id="title"/><br> <br>
 Description: <br>
 <textarea rows="4" cols="50" id="description"></textarea> <br> <br>
@@ -87,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		severity = document.getElementById('severity').value
 		action = document.getElementById('action').value
 		var data = {"pName":pName,"description":description,"title":title,"severity":severity,"action":action}
-
 		data = JSON.stringify(data)
 		alert(data)
 		http.onreadystatechange = displayData;
@@ -95,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		http.setRequestHeader("Content-type","application/json;charset=UTF-8")
 		http.send(data)	;
 	}
-
 	
 	
 </script>
@@ -103,17 +101,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 function getProjects()
 {
-
 	if(http.readyState==4)
 	{
 		res=http.responseText;
 		alert(res);
 		project=JSON.parse(res);
-		text = "<select name='project'>";
+		text = "<table>" + "<tr> <th> Project Name </th> </tr>"
 		for (i in project) {
-			text += "<option value='"+project[i]+"'>"+project[i]+"</option>"
+			text += "<tr> <td> project[i] </td> </tr>"
 		}
-		text += "</select>";
+		text += "</table>";
 		
 		document.getElementById("projects_div").innerHTML = text;
 	}
