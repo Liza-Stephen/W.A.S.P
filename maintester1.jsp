@@ -144,7 +144,9 @@
  
 }
 		  
-		  
+		  body {
+		  	background-image: url('background_image.jpg')
+		  }
 		  
 		  </style>
      
@@ -156,11 +158,10 @@
       <br>
       
 		      <div class="header">
-		  <a href="#default" class="logo"><img src="wasplogo.png" alt="logo" style="width:60px; height:60px;"></a>
+		  <a href="#default" class="logo">W.A.S.P</a>
 		  <div class="header-right">
-		    <a class="active" href="#home">Home</a>
-		    <a href="#contact">Contact</a>
-		    <a href="#about">About</a>
+		    <a href="#home"><button class='btn black'>Home</button></a>
+		    <a  href=""><button class='btn black'>Logout</button></a>
 		  </div>
 		</div>
       
@@ -210,7 +211,7 @@ function topFunction() {
 	  <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
       <!-- Report New Bug Button -->
    		<form action="CreateBug.jsp" class = "right-align">
-   			<input type="submit" value="Report Bug"  >
+   			<input type="submit" value="Report Bug"  class='btn black'>
    		</form>
       <br>
       <br>
@@ -265,65 +266,39 @@ function topFunction() {
       
       <!-- Footer -->
       
-     <footer class="page-footer">
- 
-  <div class="container">
- 
-    <div class="row">
- 
-      <div class="col s4">
- 
-        <h5 class="white-text">Who we are?</h5>
- 
-        <p class="grey-text text-lighten-4">Wasp Bug Tracking System Developers</p>
- 
-   
- 
+     <footer class="page-footer black">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="yellow-text">Company Bio</h5>
+          <p class="yellow-text text-lighten-4" id="foot-description">We are a team of graduates working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+        </div>
+        <!-- <div class="col l3 s12">
+          <h5 class="white-text">Settings</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div> -->
+        <!-- <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div> -->
       </div>
- 
-      <div class="col s4">
- 
-        <h5 class="white-text">User Guide</h5>
- 
-        <ul>
- 
-          <li><a class="grey-text text-lighten-3" href="#!">Documentation</a></li>
- 
-          <li><a class="grey-text text-lighten-3" href="#!">Team</a></li>
- 
-          <li><a class="grey-text text-lighten-3" href="#!">	</a></li>
- 
-          <li><a class="grey-text text-lighten-3" href="#!">	</a></li>
- 
-        </ul>
- 
- 
- 
-      </div>
- 
-      <div class="col s4">
- 
-        <h5 class="white-text">Quick Access </h5>
- 
-        <ul>
- 
-          <li><a class="grey-text text-lighten-3" href="#!">Home</a></li>
- 
-          <li><a class="grey-text text-lighten-3" href="#!">Logout</a></li>
- 
-          <li><a class="grey-text text-lighten-3" href="#!">Donate :)</a></li>
- 
-          <li><a class="grey-text text-lighten-3" href="#!">	</a></li>
- 
-        </ul>
- 
-      </div>     
- 
     </div>
- 
-  </div>
- 
-</footer>
+    <div class="footer-copyright">
+      <div class="container">
+      
+      </div>
+    </div>
+  </footer>
         
         <!--Up Scroll button -->
    
