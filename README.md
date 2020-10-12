@@ -40,3 +40,5 @@ Apache Derby db-derby-10.14.2.0
 * Miral Thakkar
 * Pulkit Bansal
 * Aditya Samota
+
+## This Project is part of the **CODEFURY** Competition hosted by HSBC Software Development (India) Pvt. Ltd.
