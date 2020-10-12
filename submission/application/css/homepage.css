@@ -1,0 +1,72 @@
+
+    body{
+      background-image: url("img/background_image.jpg");
+      background-color: #607d8b;
+    }
+
+    .fancy_card:hover {
+      transform: translate3D(0,-1px,0) scale(1.03); /* move up slightly and zoom in */
+      box-shadow: 8px 28px 50px rgba(39,44,49,.07), 1px 6px 12px rgba(39,44,49,.04);
+      transition: all .4s ease; /* zoom in */
+      cursor: pointer;
+    }
+
+    h1,h5 {
+      text-decoration-color: #ff9800; 
+      /*font-family: 'Oswald', sans-serif;*/
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 1000;
+      text-transform: uppercase;
+    }
+
+    a {
+      color: #ffc107; 
+    }
+
+    #foot-description {
+      color: #ffc107; 
+    }
+
+    .card {
+      border-radius: 15px;
+      padding: 10px;
+      border: 5px solid #ff9800;
+      background-color: #303f9f;
+    }
+
+    .card-reveal {
+      border-radius: 15px;
+      padding: 10px;
+      background-color: #303f9f;
+    }
+
+    .cardText {
+      color: #ffc107;
+    }
+
+    .card-title {
+    	text-align: center;
+    }
+
+    nav {
+    	padding: 0px 10px;
+    	background-color: #000000;
+    	/*background-color: #ff9800;*/
+    }
+
+
+    .modal-content {
+
+    	border-radius: 15px;
+      padding: 10px;
+      border: 5px solid #ff9800;
+      background-color: #303f9f;
+
+      /*background-image: url("green-sand-paper.jpg");*/
+
+
+    }
+
+    select {
+    	opacity: all;
+    }
