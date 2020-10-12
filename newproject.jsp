@@ -63,9 +63,10 @@ Description: <br>
 <h6> Add Team Members: </h6> 
 <button onclick='getDevelopers()' class='btn'>Get Developers</button><br><br>
 <div id='displayDevelopers'></div>
+Pick and add developers (separated by a semicolon): <input type="text"  id="addDev"/>
 <button onclick='getTesters()' class='btn'>Get Testers</button><br><br>
-<div id='displayTesters'>
-
+<div id='displayTesters'> </div>
+Pick and add tester: <input type="text"  id="addTester"/>
 <button class="btn" onclick="sendData()">Submit </button>
 
 <script>
@@ -87,20 +88,16 @@ function sendData()
 }
 function getTesters()
 {
-	$('#selectTester').append("<option>hello</option>");
 	if(http.readyState==4)
 		{
-			alert('ready')
 			res=http.responseText;
 			alert(res);
-			tester=JSON.parse(res);
-			text = "<select name='tester' mutiple>";
+			developer=JSON.parse(res);
+			text = "<table>" + "<tr> <th> Tester Name </th> </tr>"
 			for (i in tester) {
-				text += "<option value='tester[i]'>tester[i]</option>"
+				text += "<tr> <td> tester[i] </td> </tr>"
 			}
-			text += "</select>";
-			
-			$('#displayTesters').append("<option value='"+tester[i]+"'>"+tester[i]+"</option>");
+			text += "</table>";
 			
 			document.getElementById("displayTesters").innerHTML = text;
 		}
@@ -113,11 +110,11 @@ function getDevelopers()
 			res=http.responseText;
 			alert(res);
 			developer=JSON.parse(res);
-			text = "<select name='developer' mutiple>";
+			text = "<table>" + "<tr> <th> Developer Name </th> </tr>"
 			for (i in developer) {
-				text += "<option value='developer[i]'>developer[i]</option>"
+				text += "<tr> <td> developer[i] </td> </tr>"
 			}
-			text += "</select>";
+			text += "</table>";
 			
 			document.getElementById("displayDevelopers").innerHTML = text;
 		}
@@ -131,7 +128,7 @@ $(document).ready(function(){
   });
 </script>
 <!--  </form> -->
-</div>	
+</div>
 </div>
 </div>
 </div>
