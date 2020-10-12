@@ -60,32 +60,15 @@ Description: <br>
 <div class="input-field col s12">
 <textarea name="desc" id='description' class='validate'></textarea> <br> <br>
 </div>
+<h6> Add Team Members: </h6> 
 <button onclick='getDevelopers()' class='btn'>Get Developers</button><br><br>
 <div id='displayDevelopers'></div>
 <button onclick='getTesters()' class='btn'>Get Testers</button><br><br>
 <div id='displayTesters'>
-	<select id='selectTester'>
-		
-	</select>
-</div>
-<h6> Add Team Members: </h6> 
-Add Tester:
-	<div class="input-field col s12">
-	<select name="tester">
-	<x:forEach var="c" items="${tester}">
-	<option value="${c.testerId}">${c.name}</option>
-	</x:forEach>
-	</select>
-  	</div><br><br>
-Add Developers: <br>
-<input type="hidden" id='action' name='action' value="addProject"/>
-Choose developer(s):
-<p id="inputdev"> </p>
 
 <button class="btn" onclick="sendData()">Submit </button>
 
 <script>
-
 function sendData()
 {
 	pName = document.getElementById('pName').value
@@ -101,13 +84,9 @@ function sendData()
 	http.open("POST","controller",true);
 	http.setRequestHeader("Content-type","application/json;charset=UTF-8")
 	http.send(data)	;
-
 }
-
-
 function getTesters()
 {
-
 	$('#selectTester').append("<option>hello</option>");
 	if(http.readyState==4)
 		{
@@ -126,7 +105,6 @@ function getTesters()
 			document.getElementById("displayTesters").innerHTML = text;
 		}
 }
-
 function getDevelopers()
 {
 	
@@ -144,7 +122,6 @@ function getDevelopers()
 			document.getElementById("displayDevelopers").innerHTML = text;
 		}
 }
-
 </script>
 
   
