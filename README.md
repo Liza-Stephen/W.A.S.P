@@ -7,7 +7,7 @@ We have created web application to track the bugs in the projects.
 
 # Prerequisite:
 
-jre1.8.0_261
+jre 1.8.0_261
 
 Apache Tomcat 9.0
 
